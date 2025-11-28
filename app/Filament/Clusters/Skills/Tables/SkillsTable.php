@@ -91,7 +91,7 @@ class SkillsTable
             ->filters([
                 SelectFilter::make('category')
                     ->options(function () {
-                        return \App\Models\Skill::query()
+                        return Skill::query()
                             ->distinct()
                             ->pluck('category', 'category')
                             ->toArray();

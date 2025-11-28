@@ -24,6 +24,11 @@ class SkillResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return Skill::count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return SkillForm::configure($schema);
