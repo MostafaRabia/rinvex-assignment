@@ -53,6 +53,7 @@ class SkillForm
                                 ->multiple(),
 //                            TagsInput::make('tags'),
                             Repeater::make('tags')
+                                ->defaultItems(1)
                                 ->simple(
                                     Textarea::make('tags'),
                                 ),

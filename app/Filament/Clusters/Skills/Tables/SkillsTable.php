@@ -41,6 +41,7 @@ class SkillsTable
                     'category' => $skill['category'],
                     'description' => $skill['description'],
                     'proficiency_level' => strtolower($skill['category']) === 'technical' ? rand(1, 5) : null,
+                    'tags' => [],
                     'is_active' => true,
                 ]);
             }
