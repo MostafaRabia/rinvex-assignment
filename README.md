@@ -1,59 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Rinvex Assignment — Filament Skill Resource
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository implements the “Senior Full‑Stack Filament Assignment” requirements using Laravel, Filament, Livewire, and Spatie Media Library. The main domain is a Skill resource with rich form, listing, actions, and tests that reach 100% coverage for Skill-related code.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Skill Resource (CRUD):** Filament pages for list, create, view, and edit.
+- **Table Columns:** Name, category, proficiency level (avg summary), active toggle, timestamps.
+- **Filters:** Category select, proficiency-from text filter, ternary active filter, grouping by category/proficiency.
+- **Actions:**
+  - Record actions: View, Edit, Archive (only visible when active, sets `is_active=false`).
+  - Bulk actions: Delete, Archive selected (sets `is_active=false`).
+  - Header action: Seed skills from external API (`dummyjson`) with success/failure notifications.
+- **Form UX:** Wizard with conditional fields (proficiency required and visible only when `category=technical`), markdown description, media attachments, tags repeater, notes with live counter and 200 max length.
+- **Infolist UX:** Conditional visibility for proficiency level, boolean icon for active, humanized timestamps, markdown description, attachments gallery.
+- **Media & Tags:** Integrated Spatie Media Library uploads and structured tags/notes.
+- **Testing:** Comprehensive Pest tests for forms, business rules, table filters/search, per-record/bulk actions, and seeding logic.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Laravel 11
+- Filament (Resources, Tables, Forms, Infolists, Actions)
+- Livewire
+- Spatie Media Library
+- PestPHP
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Prerequisites
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2+
+- Composer
+- Node.js 18+
+- A database (SQLite/MySQL/PostgreSQL). Default `.env` can use SQLite.
 
-## Laravel Sponsors
+### Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Install PHP dependencies:
+	```bash
+	composer install
+	```
+2. Copy environment and generate key:
+	```bash
+	cp .env.example .env
+	php artisan key:generate
+	```
+3. Configure database in `.env` (for SQLite):
+	```bash
+	touch database/database.sqlite
+	echo "DB_CONNECTION=sqlite" >> .env
+	```
+	Or set `DB_CONNECTION`, `DB_DATABASE`, etc. for MySQL/PostgreSQL.
+4. Run migrations:
+	```bash
+	php artisan migrate
+	```
 
-### Premium Partners
+### Running the App
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+php artisan serve
+```
 
-## Contributing
+Filament admin panel pages for Skills are available under the cluster `Settings`. Ensure you have an authenticated user (create via factory or registration) to access actions that dispatch notifications to the current user.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Usage Notes
 
-## Code of Conduct
+- Proficiency level is only applicable when `category=technical` and must be between 1 and 5.
+- Archive action is only visible for active skills and sets `is_active=false`.
+- Seeding header action fetches 10 items from `dummyjson` and creates new skills, skipping duplicates by `name`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Testing & Coverage
 
-## Security Vulnerabilities
+Run only Skill tests:
+```bash
+php artisan test --filter=SkillTest
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Run full test suite:
+```bash
+php artisan test
+```
+
+Coverage (Skill resource): Tests in `tests/Feature/SkillTest.php` cover page loading, form visibility/validation, business rules, table filters/search, record and bulk actions, and seeding success/failure + duplicate skipping.
+
+## Project Structure Highlights
+
+- `app/Models/Skill.php`: Eloquent model with casts and media support.
+- `app/Filament/Clusters/Settings/SkillResource.php`: Resource wiring.
+- `app/Filament/Clusters/Settings/Pages/*`: List, Create, View, Edit pages.
+- `app/Filament/Clusters/Settings/Tables/SkillsTable.php`: Table schema, filters, actions, and `seedSkills()`.
+- `app/Filament/Clusters/Settings/Schemas/SkillForm.php`: Wizard form schema.
+- `app/Filament/Clusters/Settings/Schemas/SkillInfolist.php`: Infolist schema.
+- `database/factories/SkillFactory.php`: Factory for tests and seeding.
+- `tests/Feature/SkillTest.php`: Comprehensive Pest tests.
+
+## Notes on Assignment Compliance
+
+- Implements Filament resource with advanced table/form/infolist features.
+- Adds realistic actions (record, bulk, header) with notifications.
+- Enforces validation and business rules in UI and tests.
+- External data fetch integrated and fully testable via HTTP fakes.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT
