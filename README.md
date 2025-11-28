@@ -18,7 +18,7 @@ This repository implements the “Senior Full‑Stack Filament Assignment” req
 
 ## Tech Stack
 
-- Laravel 11
+- Laravel 12
 - Filament (Resources, Tables, Forms, Infolists, Actions)
 - Livewire
 - Spatie Media Library
@@ -30,7 +30,6 @@ This repository implements the “Senior Full‑Stack Filament Assignment” req
 
 - PHP 8.2+
 - Composer
-- Node.js 18+
 - A database (SQLite/MySQL/PostgreSQL). Default `.env` can use SQLite.
 
 ### Installation
@@ -54,6 +53,11 @@ This repository implements the “Senior Full‑Stack Filament Assignment” req
 	```bash
 	php artisan migrate
 	```
+ 
+5. Create new admin:
+	```bash
+	php artisan make:filament-user
+	```
 
 ### Running the App
 
@@ -61,7 +65,11 @@ This repository implements the “Senior Full‑Stack Filament Assignment” req
 php artisan serve
 ```
 
-Filament admin panel pages for Skills are available under the cluster `Settings`. Ensure you have an authenticated user (create via factory or registration) to access actions that dispatch notifications to the current user.
+Filament admin panel pages for Skills are available under the cluster `Skills`. Ensure you have an authenticated user (create via factory or registration) to access actions that dispatch notifications to the current user.
+
+## What would I improve with more time?
+- Compress media uploads
+- Use cache for retrieving categories for filtering
 
 ## Usage Notes
 
@@ -86,11 +94,11 @@ Coverage (Skill resource): Tests in `tests/Feature/SkillTest.php` cover page loa
 ## Project Structure Highlights
 
 - `app/Models/Skill.php`: Eloquent model with casts and media support.
-- `app/Filament/Clusters/Settings/SkillResource.php`: Resource wiring.
-- `app/Filament/Clusters/Settings/Pages/*`: List, Create, View, Edit pages.
-- `app/Filament/Clusters/Settings/Tables/SkillsTable.php`: Table schema, filters, actions, and `seedSkills()`.
-- `app/Filament/Clusters/Settings/Schemas/SkillForm.php`: Wizard form schema.
-- `app/Filament/Clusters/Settings/Schemas/SkillInfolist.php`: Infolist schema.
+- `app/Filament/Clusters/Skills/SkillResource.php`: Resource wiring.
+- `app/Filament/Clusters/Skills/Pages/*`: List, Create, View, Edit pages.
+- `app/Filament/Clusters/Skills/Tables/SkillsTable.php`: Table schema, filters, actions, and `seedSkills()`.
+- `app/Filament/Clusters/Skills/Schemas/SkillForm.php`: Wizard form schema.
+- `app/Filament/Clusters/Skills/Schemas/SkillInfolist.php`: Infolist schema.
 - `database/factories/SkillFactory.php`: Factory for tests and seeding.
 - `tests/Feature/SkillTest.php`: Comprehensive Pest tests.
 

@@ -9,13 +9,13 @@ use function Pest\Livewire\livewire;
 it('can load the page', function () {
     $skills = \App\Models\Skill::factory()->count(5)->create();
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->assertCanSeeTableRecords($skills);
 });
 
 it('shows proficiency only for technical category in form', function () {
-    livewire(\App\Filament\Clusters\Settings\Pages\CreateSkill::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\CreateSkill::class)
         ->fillForm([
             'name' => 'Non Technical Skill',
             'category' => 'management',
@@ -33,7 +33,7 @@ it('shows proficiency only for technical category in form', function () {
 });
 
 it('validates proficiency range when technical', function () {
-    livewire(\App\Filament\Clusters\Settings\Pages\CreateSkill::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\CreateSkill::class)
         ->fillForm([
             'name' => 'Tech Skill',
             'category' => 'technical',
@@ -48,7 +48,7 @@ it('validates proficiency range when technical', function () {
 it('validates required fields and unique name', function () {
     $existing = \App\Models\Skill::factory()->create(['name' => 'Existing Name']);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\CreateSkill::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\CreateSkill::class)
         ->fillForm([
             'name' => '',
             'category' => '',
@@ -73,7 +73,7 @@ it('validates required fields and unique name', function () {
 it('validates notes max length business rule', function () {
     $longNotes = str_repeat('a', 201);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\CreateSkill::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\CreateSkill::class)
         ->fillForm([
             'name' => 'Note Rule',
             'category' => 'soft',
@@ -89,7 +89,7 @@ it('business rule: Archive action visible only when active', function () {
     $active = \App\Models\Skill::factory()->create(['is_active' => true]);
     $inactive = \App\Models\Skill::factory()->create(['is_active' => false]);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->assertTableActionVisible('Archive', $active)
         ->assertTableActionHidden('Archive', $inactive);
@@ -110,7 +110,7 @@ it('business rule: seeding skips existing names', function () {
         ], 200),
     ]);
 
-    \App\Filament\Clusters\Settings\Tables\SkillsTable::seedSkills();
+    \App\Filament\Clusters\Skills\Tables\SkillsTable::seedSkills();
 
     expect(\App\Models\Skill::where('name', 'Skill One')->count())->toBe(1);
     expect(\App\Models\Skill::where('name', 'Skill New')->exists())->toBeTrue();
@@ -123,11 +123,11 @@ it('can view, edit, and delete a skill via record pages', function () {
         'is_active' => true,
     ]);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ViewSkill::class, ['record' => $skill->getRouteKey()])
+    livewire(\App\Filament\Clusters\Skills\Pages\ViewSkill::class, ['record' => $skill->getRouteKey()])
         ->assertOk()
         ->assertSee($skill->name);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\EditSkill::class, ['record' => $skill->getRouteKey()])
+    livewire(\App\Filament\Clusters\Skills\Pages\EditSkill::class, ['record' => $skill->getRouteKey()])
         ->assertOk()
         ->fillForm(['name' => 'Updated Name'])
         ->call('save')
@@ -140,7 +140,7 @@ it('table filters by category and proficiency_from', function () {
     \App\Models\Skill::factory()->create(['name' => 'Cat A', 'category' => 'A', 'proficiency_level' => 1]);
     \App\Models\Skill::factory()->create(['name' => 'Cat B', 'category' => 'B', 'proficiency_level' => 4]);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->filterTable('category', 'B')
         ->assertCanSeeTableRecords(\App\Models\Skill::where('category', 'B')->get())
@@ -154,7 +154,7 @@ it('ternary filter toggles active state', function () {
     \App\Models\Skill::factory()->create(['name' => 'Active', 'is_active' => true]);
     \App\Models\Skill::factory()->create(['name' => 'Inactive', 'is_active' => false]);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->filterTable('is_active', true)
         ->assertCanSeeTableRecords(\App\Models\Skill::where('is_active', true)->get())
@@ -167,7 +167,7 @@ it('record action Archive sets is_active to false', function () {
 
     $skill = \App\Models\Skill::factory()->create(['is_active' => true]);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->callTableAction('Archive', $skill);
 
@@ -180,7 +180,7 @@ it('bulk archive updates selected records', function () {
 
     $skills = \App\Models\Skill::factory()->count(3)->create(['is_active' => true]);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->callTableBulkAction('Archive', $skills);
 
@@ -202,7 +202,7 @@ it('header action seeds skills from external API on success', function () {
         ], 200),
     ]);
 
-    \App\Filament\Clusters\Settings\Tables\SkillsTable::seedSkills();
+    \App\Filament\Clusters\Skills\Tables\SkillsTable::seedSkills();
 
     expect(\App\Models\Skill::where('name', 'Skill One')->exists())->toBeTrue();
     expect(\App\Models\Skill::where('name', 'Skill Two')->exists())->toBeTrue();
@@ -212,7 +212,7 @@ it('table columns sortable and searchable by name', function () {
     \App\Models\Skill::factory()->create(['name' => 'Alpha']);
     \App\Models\Skill::factory()->create(['name' => 'Beta']);
 
-    livewire(\App\Filament\Clusters\Settings\Pages\ListSkills::class)
+    livewire(\App\Filament\Clusters\Skills\Pages\ListSkills::class)
         ->assertOk()
         ->searchTable('Alpha')
         ->assertCanSeeTableRecords(\App\Models\Skill::where('name', 'Alpha')->get())

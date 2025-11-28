@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Clusters\Settings\Pages;
+namespace App\Filament\Clusters\Skills\Pages;
 
-use App\Filament\Clusters\Settings\SkillResource;
+use App\Filament\Clusters\Skills\SkillResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 

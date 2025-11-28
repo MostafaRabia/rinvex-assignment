@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Clusters\Settings\Schemas;
+namespace App\Filament\Clusters\Skills\Schemas;
 
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
@@ -45,24 +45,24 @@ class SkillInfolist
                     ->columnSpan(['lg' => 1])
                     ->hidden(fn ($record) => $record === null),
 
-                Section::make()->schema([
+                Section::make('Description')->schema([
                     TextEntry::make('description')
+                        ->hiddenLabel()
                         ->markdown()
                         ->placeholder('-')
                         ->columnSpanFull(),
                 ])
                 ->collapsible()
                 ->collapsed()
-                ->columns(2)
                 ->columnSpan(['lg' => fn ($record) => $record === null ? 3 : 2]),
 
-                Section::make()->schema([
+                Section::make('Attachments')->schema([
                     SpatieMediaLibraryImageEntry::make('attachments')
+                        ->hiddenLabel()
                         ->columnSpanFull(),
                 ])
                 ->collapsible()
                 ->collapsed()
-                ->columns(2)
                 ->columnSpan(['lg' => fn ($record) => $record === null ? 3 : 2]),
             ])
             ->columns(3);

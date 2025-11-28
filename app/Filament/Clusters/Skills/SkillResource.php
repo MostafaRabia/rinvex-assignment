@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Clusters\Settings;
+namespace App\Filament\Clusters\Skills;
 
-use App\Filament\Clusters\Settings\Pages\CreateSkill;
-use App\Filament\Clusters\Settings\Pages\EditSkill;
-use App\Filament\Clusters\Settings\Pages\ListSkills;
-use App\Filament\Clusters\Settings\Pages\ViewSkill;
-use App\Filament\Clusters\Settings\Schemas\SkillForm;
-use App\Filament\Clusters\Settings\Schemas\SkillInfolist;
-use App\Filament\Clusters\Settings\Tables\SkillsTable;
+use App\Filament\Clusters\Skills\Pages\CreateSkill;
+use App\Filament\Clusters\Skills\Pages\EditSkill;
+use App\Filament\Clusters\Skills\Pages\ListSkills;
+use App\Filament\Clusters\Skills\Pages\ViewSkill;
+use App\Filament\Clusters\Skills\Schemas\SkillForm;
+use App\Filament\Clusters\Skills\Schemas\SkillInfolist;
+use App\Filament\Clusters\Skills\Tables\SkillsTable;
 use App\Models\Skill;
 use BackedEnum;
 use Filament\Resources\Resource;

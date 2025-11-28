@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Clusters\Settings\Schemas;
+namespace App\Filament\Clusters\Skills\Schemas;
 
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
@@ -43,6 +43,7 @@ class SkillForm
                             MarkdownEditor::make('description')
                                 ->columnSpanFull(),
                             Toggle::make('is_active')
+                                ->default(true)
                                 ->required(),
                         ]),
                     Wizard\Step::make('Additional info')

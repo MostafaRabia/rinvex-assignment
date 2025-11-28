@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Clusters\Settings\Tables;
+namespace App\Filament\Clusters\Skills\Tables;
 
 use App\Models\Skill;
 use Filament\Actions\Action;
